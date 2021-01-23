@@ -90,16 +90,43 @@ class Conversion extends Component {
       /* Calculation */
       do {
         pow -= 1;
-        if (returned < Math.pow(2, pow)) {
-          D2B += "0";
-        } else {
-          D2B += "1";
-        }
+        let divisor = Math.floor(returned / Math.pow(2, pow));
         returned = returned % Math.pow(2, pow);
+        D2B += divisor.toString();
       } while (Math.pow(2, pow) !== 1);
 
       /* OutCome */
       this.setOutcome(parseInt(D2B));
+    } else if (from === 4 && (to === 0 || to === 10)) {
+      let Q2D = 0; /* Quaternary To Decimal */
+
+      const returned = load.split("").reverse();
+      /* Calculation */
+      returned.forEach((val) => {
+        Q2D += parseInt(val) * Math.pow(4, pow);
+        pow += 1;
+      });
+
+      /* OutCome */
+      this.setOutcome(Q2D);
+    } else if (from === 10 && to === 4) {
+      let D2Q = ""; /* Decimal To Quaternary */
+
+      let returned = parseInt(load);
+      while (returned > Math.pow(4, pow)) {
+        pow += 1;
+      }
+
+      /* Calculation */
+      do {
+        pow -= 1;
+        let divisor = Math.floor(returned / Math.pow(4, pow));
+        returned = returned % Math.pow(4, pow);
+        D2Q += divisor.toString();
+      } while (Math.pow(4, pow) !== 1);
+
+      /* OutCome */
+      this.setOutcome(D2Q);
     }
 
     this.enableInterposed(); /* disallow gif picture */
