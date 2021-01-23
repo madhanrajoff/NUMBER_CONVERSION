@@ -71,11 +71,35 @@ class Conversion extends Component {
       let B2D = 0; /* Binary To Decimal */
 
       const returned = load.split("").reverse();
+      /* Calculation */
       returned.forEach((val) => {
         B2D += parseInt(val) * Math.pow(2, pow);
         pow += 1;
       });
+
+      /* OutCome */
       this.setOutcome(B2D);
+    } else if (from === 10 && to === 2) {
+      let D2B = ""; /* Decimal To Binary */
+
+      let returned = parseInt(load);
+      while (returned > Math.pow(2, pow)) {
+        pow += 1;
+      }
+
+      /* Calculation */
+      do {
+        pow -= 1;
+        if (returned < Math.pow(2, pow)) {
+          D2B += "0";
+        } else {
+          D2B += "1";
+        }
+        returned = returned % Math.pow(2, pow);
+      } while (Math.pow(2, pow) !== 1);
+
+      /* OutCome */
+      this.setOutcome(parseInt(D2B));
     }
 
     this.enableInterposed(); /* disallow gif picture */
