@@ -127,6 +127,36 @@ class Conversion extends Component {
 
       /* OutCome */
       this.setOutcome(D2Q);
+    } else if (from === 8 && (to === 0 || to === 10)) {
+      let O2D = 0; /* Octal To Decimal */
+
+      const returned = load.split("").reverse();
+      /* Calculation */
+      returned.forEach((val) => {
+        O2D += parseInt(val) * Math.pow(8, pow);
+        pow += 1;
+      });
+
+      /* OutCome */
+      this.setOutcome(O2D);
+    } else if (from === 10 && to === 8) {
+      let D2O = ""; /* Decimal To Octal */
+
+      let returned = parseInt(load);
+      while (returned > Math.pow(8, pow)) {
+        pow += 1;
+      }
+
+      /* Calculation */
+      do {
+        pow -= 1;
+        let divisor = Math.floor(returned / Math.pow(8, pow));
+        returned = returned % Math.pow(8, pow);
+        D2O += divisor.toString();
+      } while (Math.pow(8, pow) !== 1);
+
+      /* OutCome */
+      this.setOutcome(D2O);
     }
 
     this.enableInterposed(); /* disallow gif picture */
