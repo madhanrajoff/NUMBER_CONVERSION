@@ -157,6 +157,42 @@ class Conversion extends Component {
 
       /* OutCome */
       this.setOutcome(D2O);
+    } else if ((from === 0 || from === 2) && to === 4) {
+      let B2Q = ""; /* Binary To Quaternary */
+
+      let returned = load.split("");
+      /* Calculation */
+      let chunk_start_at = 0,
+        chunk_size = 2;
+
+      while (returned.length > chunk_start_at) {
+        let chunks = returned.slice(chunk_start_at, chunk_size);
+        chunk_start_at = chunk_size;
+        chunk_size += 2;
+        B2Q += parseInt(chunks.join(""), 2);
+      }
+
+      /* OutCome */
+      this.setOutcome(B2Q);
+    } else if (from === 4 && to === 2) {
+      let Q2B = ""; /* Quaternary To Binary */
+
+      const returned = load.split("");
+      /* Calculation */
+      returned.forEach((val) => {
+        if (val === "0") {
+          Q2B += "00";
+        } else if (val === "1") {
+          Q2B += "01";
+        } else if (val === "2") {
+          Q2B += "10";
+        } else if (val === "3") {
+          Q2B += "11";
+        }
+      });
+
+      /* OutCome */
+      this.setOutcome(Q2B);
     }
 
     this.enableInterposed(); /* disallow gif picture */
