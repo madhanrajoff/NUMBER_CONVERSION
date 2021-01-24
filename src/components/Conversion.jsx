@@ -329,7 +329,7 @@ class Conversion extends Component {
               </Select>
             </Box>
             <Box className={classes.icon}>
-              <ExitToAppIcon color="action" />
+              <ExitToAppIcon />
             </Box>
             <Box>
               <Select
