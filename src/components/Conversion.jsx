@@ -408,7 +408,10 @@ class Conversion extends Component {
 
 const useStyles = (theme) => ({
   paper: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(3),
+    },
     backgroundColor: "lightyellow",
   },
   box: {
