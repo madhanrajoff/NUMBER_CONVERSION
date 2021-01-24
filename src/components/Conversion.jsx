@@ -178,21 +178,33 @@ class Conversion extends Component {
       let Q2B = ""; /* Quaternary To Binary */
 
       const returned = load.split("");
-      /* Calculation */
-      returned.forEach((val) => {
-        if (val === "0") {
-          Q2B += "00";
-        } else if (val === "1") {
-          Q2B += "01";
-        } else if (val === "2") {
-          Q2B += "10";
-        } else if (val === "3") {
-          Q2B += "11";
-        }
-      });
+      if (
+        returned.length === 1 &&
+        (returned.includes("0") || returned.includes("1"))
+      ) {
+        Q2B += returned.join();
 
-      /* OutCome */
-      this.setOutcome(Q2B);
+        /* OutCome */
+        this.setOutcome(Q2B);
+      } else {
+        /* Calculation */
+        returned.forEach((val, index) => {
+          if (val === "0") {
+            Q2B += "00";
+          } else if (val === "1" && index === 0) {
+            Q2B += "1";
+          } else if (val === "1") {
+            Q2B += "01";
+          } else if (val === "2") {
+            Q2B += "10";
+          } else if (val === "3") {
+            Q2B += "11";
+          }
+        });
+
+        /* OutCome */
+        this.setOutcome(Q2B);
+      }
     }
 
     this.enableInterposed(); /* disallow gif picture */
