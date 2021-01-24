@@ -13,6 +13,8 @@ import {
   Zoom,
   Slide,
 } from "@material-ui/core";
+// Icons
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import boy from "../images/boy.gif";
 
@@ -316,6 +318,7 @@ class Conversion extends Component {
                 value={from}
                 onChange={handleChange}
                 name="from"
+                variant="outlined"
                 className={classes.select}
               >
                 {Object.keys(Types).map((key) => (
@@ -325,12 +328,16 @@ class Conversion extends Component {
                 ))}
               </Select>
             </Box>
+            <Box className={classes.icon}>
+              <ExitToAppIcon />
+            </Box>
             <Box>
               <Select
                 native
                 value={to}
                 onChange={handleChange}
                 name="to"
+                variant="outlined"
                 className={classes.select}
               >
                 {Object.keys(C_Types)
@@ -349,6 +356,7 @@ class Conversion extends Component {
               label="Load"
               type="number"
               value={load}
+              variant="outlined"
               onChange={onInput}
             />
           </Box>
@@ -400,7 +408,7 @@ class Conversion extends Component {
 
 const useStyles = (theme) => ({
   paper: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(8),
     backgroundColor: "lightyellow",
   },
   box: {
@@ -417,6 +425,9 @@ const useStyles = (theme) => ({
   },
   select: {
     margin: theme.spacing(5),
+  },
+  icon: {
+    marginTop: theme.spacing(7),
   },
   button: {
     margin: theme.spacing(5),
