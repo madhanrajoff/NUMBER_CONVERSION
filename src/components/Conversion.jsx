@@ -207,34 +207,64 @@ class Conversion extends Component {
       }
     } else if ((from === 0 || from === 2) && to === 8) {
       let B2D = 0; /* Binary To Decimal */
-      let D2O = ""; /* Decimal To Octal */
 
       const returned = load.split("").reverse();
-      /* Calculation  Binary To Decimal */
+      /* Calculation */
       returned.forEach((val) => {
         B2D += parseInt(val) * Math.pow(2, pow);
         pow += 1;
       });
 
+      let D2O = ""; /* Decimal To Octal */
       D2O = B2D.toString(8);
 
       /* OutCome */
       this.setOutcome(D2O);
     } else if (from === 8 && to === 2) {
       let O2D = 0; /* Octal To Decimal */
-      let D2B = ""; /* Decimal To Binary */
 
       const returned = load.split("").reverse();
-      /* Calculation Octal To Decimal */
+      /* Calculation */
       returned.forEach((val) => {
         O2D += parseInt(val) * Math.pow(8, pow);
         pow += 1;
       });
 
+      let D2B = ""; /* Decimal To Binary */
       D2B = O2D.toString(2);
 
       /* OutCome */
       this.setOutcome(D2B);
+    } else if (from === 4 && to === 8) {
+      let Q2D = 0; /* Quaternary To Decimal */
+
+      const returned = load.split("").reverse();
+      /* Calculation */
+      returned.forEach((val) => {
+        Q2D += parseInt(val) * Math.pow(4, pow);
+        pow += 1;
+      });
+
+      let D2O = ""; /* Decimal To Octal */
+      D2O = Q2D.toString(8);
+
+      /* OutCome */
+      this.setOutcome(D2O);
+    } else if (from === 8 && to === 4) {
+      let O2D = 0; /* Octal To Decimal */
+
+      const returned = load.split("").reverse();
+      /* Calculation */
+      returned.forEach((val) => {
+        O2D += parseInt(val) * Math.pow(8, pow);
+        pow += 1;
+      });
+
+      let D2Q = ""; /* Decimal To Quaternary */
+      D2Q = O2D.toString(4);
+
+      /* OutCome */
+      this.setOutcome(D2Q);
     }
 
     this.enableInterposed(); /* disallow gif picture */
