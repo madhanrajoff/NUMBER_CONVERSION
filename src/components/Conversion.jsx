@@ -60,214 +60,193 @@ class Conversion extends Component {
 
   handleClick = () => {
     /* state objects */
-    const { from, to, load, outcome } = this.state;
-
-    /* functions */
-    const { Binary, Quaternary, Octal, setValue, disableInterposed } = this;
-
-    let pow = 0;
+    const { from, to, load } = this.state;
 
     if ((from === 0 || from === 2) && (to === 0 || to === 10)) {
-      let B2D = 0; /* Binary To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        B2D += parseInt(val) * Math.pow(2, pow);
-        pow += 1;
-      });
+      let B2D = this.binaryToDecimal(load); /* Binary To  Decimal*/
 
       /* OutCome */
       this.setOutcome(B2D);
     } else if (from === 10 && to === 2) {
-      let D2B = ""; /* Decimal To Binary */
-
-      let returned = parseInt(load);
-      while (returned > Math.pow(2, pow)) {
-        pow += 1;
-      }
-
-      /* Calculation */
-      do {
-        pow -= 1;
-        let divisor = Math.floor(returned / Math.pow(2, pow));
-        returned = returned % Math.pow(2, pow);
-        D2B += divisor.toString();
-      } while (Math.pow(2, pow) !== 1);
+      let D2B = this.decimalToBinary(load); /* Decimal To Binary */
 
       /* OutCome */
-      this.setOutcome(parseInt(D2B));
+      this.setOutcome(D2B);
     } else if (from === 4 && (to === 0 || to === 10)) {
-      let Q2D = 0; /* Quaternary To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        Q2D += parseInt(val) * Math.pow(4, pow);
-        pow += 1;
-      });
+      let Q2D = this.quaternaryToDecimal(load); /* Quaternary To Decimal */
 
       /* OutCome */
       this.setOutcome(Q2D);
     } else if (from === 10 && to === 4) {
-      let D2Q = ""; /* Decimal To Quaternary */
-
-      let returned = parseInt(load);
-      while (returned > Math.pow(4, pow)) {
-        pow += 1;
-      }
-
-      /* Calculation */
-      do {
-        pow -= 1;
-        let divisor = Math.floor(returned / Math.pow(4, pow));
-        returned = returned % Math.pow(4, pow);
-        D2Q += divisor.toString();
-      } while (Math.pow(4, pow) !== 1);
+      let D2Q = this.decimalToQuaternary(load); /* Decimal To Quaternary */
 
       /* OutCome */
       this.setOutcome(D2Q);
     } else if (from === 8 && (to === 0 || to === 10)) {
-      let O2D = 0; /* Octal To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        O2D += parseInt(val) * Math.pow(8, pow);
-        pow += 1;
-      });
+      let O2D = this.octalToDecimal(load); /* Octal To Decimal */
 
       /* OutCome */
       this.setOutcome(O2D);
     } else if (from === 10 && to === 8) {
-      let D2O = ""; /* Decimal To Octal */
-
-      let returned = parseInt(load);
-      while (returned > Math.pow(8, pow)) {
-        pow += 1;
-      }
-
-      /* Calculation */
-      do {
-        pow -= 1;
-        let divisor = Math.floor(returned / Math.pow(8, pow));
-        returned = returned % Math.pow(8, pow);
-        D2O += divisor.toString();
-      } while (Math.pow(8, pow) !== 1);
+      let D2O = this.decimalToOctal(load); /* Decimal To Octal */
 
       /* OutCome */
       this.setOutcome(D2O);
     } else if ((from === 0 || from === 2) && to === 4) {
-      let B2Q = ""; /* Binary To Quaternary */
-
-      let returned = load.split("");
-      /* Calculation */
-      let chunk_start_at = 0,
-        chunk_size = 2;
-
-      while (returned.length > chunk_start_at) {
-        let chunks = returned.slice(chunk_start_at, chunk_size);
-        chunk_start_at = chunk_size;
-        chunk_size += 2;
-        B2Q += parseInt(chunks.join(""), 2);
-      }
+      let B2D = this.binaryToDecimal(load); /* Binary To  Decimal*/
+      let D2Q = this.decimalToQuaternary(B2D); /* Decimal To Quaternary */
 
       /* OutCome */
-      this.setOutcome(B2Q);
+      this.setOutcome(D2Q);
     } else if (from === 4 && to === 2) {
-      let Q2B = ""; /* Quaternary To Binary */
+      let Q2D = this.quaternaryToDecimal(load); /* Quaternary To Decimal */
+      let D2B = this.decimalToBinary(Q2D); /* Decimal To Binary */
 
-      const returned = load.split("");
-      if (
-        returned.length === 1 &&
-        (returned.includes("0") || returned.includes("1"))
-      ) {
-        Q2B += returned.join();
-
-        /* OutCome */
-        this.setOutcome(Q2B);
-      } else {
-        /* Calculation */
-        returned.forEach((val, index) => {
-          if (val === "0") {
-            Q2B += "00";
-          } else if (val === "1" && index === 0) {
-            Q2B += "1";
-          } else if (val === "1") {
-            Q2B += "01";
-          } else if (val === "2") {
-            Q2B += "10";
-          } else if (val === "3") {
-            Q2B += "11";
-          }
-        });
-
-        /* OutCome */
-        this.setOutcome(Q2B);
-      }
+      /* OutCome */
+      this.setOutcome(D2B);
     } else if ((from === 0 || from === 2) && to === 8) {
-      let B2D = 0; /* Binary To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        B2D += parseInt(val) * Math.pow(2, pow);
-        pow += 1;
-      });
-
-      let D2O = ""; /* Decimal To Octal */
-      D2O = B2D.toString(8);
+      let B2D = this.binaryToDecimal(load); /* Binary To Decimal */
+      let D2O = B2D.toString(8); /* Decimal To Octal */
 
       /* OutCome */
       this.setOutcome(D2O);
     } else if (from === 8 && to === 2) {
-      let O2D = 0; /* Octal To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        O2D += parseInt(val) * Math.pow(8, pow);
-        pow += 1;
-      });
-
-      let D2B = ""; /* Decimal To Binary */
-      D2B = O2D.toString(2);
+      let O2D = this.octalToDecimal(load); /* Octal To Decimal */
+      let D2B = O2D.toString(2); /* Decimal To Binary */
 
       /* OutCome */
       this.setOutcome(D2B);
     } else if (from === 4 && to === 8) {
-      let Q2D = 0; /* Quaternary To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        Q2D += parseInt(val) * Math.pow(4, pow);
-        pow += 1;
-      });
-
-      let D2O = ""; /* Decimal To Octal */
-      D2O = Q2D.toString(8);
+      let Q2D = this.quaternaryToDecimal(load); /* Quaternary To Decimal */
+      let D2O = Q2D.toString(8); /* Decimal To Octal */
 
       /* OutCome */
       this.setOutcome(D2O);
     } else if (from === 8 && to === 4) {
-      let O2D = 0; /* Octal To Decimal */
-
-      const returned = load.split("").reverse();
-      /* Calculation */
-      returned.forEach((val) => {
-        O2D += parseInt(val) * Math.pow(8, pow);
-        pow += 1;
-      });
-
-      let D2Q = ""; /* Decimal To Quaternary */
-      D2Q = O2D.toString(4);
+      let O2D = this.octalToDecimal(load); /* Octal To Decimal */
+      let D2Q = O2D.toString(4); /* Decimal To Quaternary */
 
       /* OutCome */
       this.setOutcome(D2Q);
     }
 
     this.enableInterposed(); /* disallow gif picture */
+  };
+
+  decimalToOctal = (parcel) => {
+    let pow = 0; /* Power */
+    let D2O = ""; /* Decimal To Octal */
+
+    let returned = parseInt(parcel);
+    while (returned > Math.pow(8, pow)) {
+      pow += 1;
+    }
+
+    /* Calculation */
+    do {
+      pow -= 1;
+      let divisor = Math.floor(returned / Math.pow(8, pow));
+      returned = returned % Math.pow(8, pow);
+      D2O += divisor.toString();
+    } while (Math.pow(8, pow) !== 1);
+
+    return D2O;
+  };
+
+  decimalToQuaternary = (parcel) => {
+    let pow = 0; /* Power */
+    let D2Q = ""; /* Decimal To Quaternary */
+
+    let returned = parseInt(parcel);
+    while (returned > Math.pow(4, pow)) {
+      pow += 1;
+    }
+
+    /* Calculation */
+    do {
+      pow -= 1;
+      let divisor = Math.floor(returned / Math.pow(4, pow));
+      returned = returned % Math.pow(4, pow);
+      D2Q += divisor.toString();
+    } while (Math.pow(4, pow) !== 1);
+
+    return D2Q;
+  };
+
+  octalToDecimal = (parcel) => {
+    let pow = 0; /* Power */
+    let O2D = 0; /* Octal To Decimal */
+
+    const returned = parcel.split("").reverse();
+    /* Calculation */
+    returned.forEach((val) => {
+      O2D += parseInt(val) * Math.pow(8, pow);
+      pow += 1;
+    });
+
+    return O2D;
+  };
+
+  decimalToBinary = (parcel) => {
+    let pow = 0; /* Power */
+    let D2B = ""; /* Decimal To Binary */
+
+    let returned = parseInt(parcel);
+    while (returned > Math.pow(2, pow)) {
+      pow += 1;
+    }
+
+    /* Calculation */
+    do {
+      pow -= 1;
+      let divisor = Math.floor(returned / Math.pow(2, pow));
+      returned = returned % Math.pow(2, pow);
+      D2B += divisor.toString();
+    } while (Math.pow(2, pow) !== 1);
+
+    return D2B;
+  };
+
+  binaryToDecimal = (parcel) => {
+    let pow = 0; /* Power */
+    let B2D = 0; /* Binary To Decimal */
+
+    const returned = parcel.split("").reverse();
+    /* Calculation */
+    returned.forEach((val) => {
+      B2D += parseInt(val) * Math.pow(2, pow);
+      pow += 1;
+    });
+
+    return B2D;
+  };
+
+  quaternaryToDecimal = (parcel) => {
+    let pow = 0; /* Power */
+    let Q2D = 0; /* Quaternary To Decimal */
+
+    const returned = parcel.split("").reverse();
+    /* Calculation */
+    returned.forEach((val) => {
+      Q2D += parseInt(val) * Math.pow(4, pow);
+      pow += 1;
+    });
+
+    return Q2D;
+  };
+
+  octalToDecimal = (parcel) => {
+    let pow = 0; /* Power */
+    let O2D = 0; /* Octal To Decimal */
+
+    const returned = parcel.split("").reverse();
+    /* Calculation */
+    returned.forEach((val) => {
+      O2D += parseInt(val) * Math.pow(8, pow);
+      pow += 1;
+    });
+
+    return O2D;
   };
 
   onInput = ({ target: { name, value } }) => {
