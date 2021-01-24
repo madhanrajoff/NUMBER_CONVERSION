@@ -25,7 +25,14 @@ const beginningState = {
 class Conversion extends Component {
   state = { from: 0, to: 0, ...beginningState };
 
-  Types = { Decimal: 10, Octal: 8, Quaternary: 4, Binary: 2 };
+  Types = { 10: "Decimal", 8: "Octal", 4: "Quaternary", 2: "Binary" };
+  /* Copy Types */
+  C_Types = { 10: "Decimal", 8: "Octal", 4: "Quaternary" };
+
+  renovateC_Types = (del) => {
+    this.C_Types = { ...this.Types };
+    delete this.C_Types[del];
+  };
 
   Decimal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -53,6 +60,11 @@ class Conversion extends Component {
 
   handleChange = ({ target: { name, value } }) => {
     this.setBeginningState();
+
+    if (name === "from" && value in this.C_Types) {
+      this.renovateC_Types(value);
+    }
+
     this.setValue({
       [name]: !Number.isInteger(value) ? parseInt(value) : value,
     });
@@ -282,7 +294,7 @@ class Conversion extends Component {
     const { from, to, interposed, load, outcome } = this.state;
 
     /* functions */
-    const { Types, handleChange, onInput, handleClick } = this;
+    const { Types, C_Types, handleChange, onInput, handleClick } = this;
 
     return (
       <Container>
@@ -306,13 +318,11 @@ class Conversion extends Component {
                 name="from"
                 className={classes.select}
               >
-                {Object.keys(Types)
-                  .reverse()
-                  .map((key) => (
-                    <option key={key} value={Types[key]}>
-                      {key}
-                    </option>
-                  ))}
+                {Object.keys(Types).map((key) => (
+                  <option key={key} value={key}>
+                    {Types[key]}
+                  </option>
+                ))}
               </Select>
             </Box>
             <Box>
@@ -323,11 +333,13 @@ class Conversion extends Component {
                 name="to"
                 className={classes.select}
               >
-                {Object.keys(Types).map((key) => (
-                  <option key={key} value={Types[key]}>
-                    {key}
-                  </option>
-                ))}
+                {Object.keys(C_Types)
+                  .reverse()
+                  .map((key) => (
+                    <option key={key} value={key}>
+                      {C_Types[key]}
+                    </option>
+                  ))}
               </Select>
             </Box>
           </Box>
