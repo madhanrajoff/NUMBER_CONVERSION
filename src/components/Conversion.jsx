@@ -86,6 +86,11 @@ class Conversion extends Component {
 
       /* OutCome */
       this.setOutcome(D2B);
+    } else if (from === 10 && to === 0) {
+      let D2O = this.decimalToOctal(load); /* Decimal To Octal */
+
+      /* OutCome */
+      this.setOutcome(D2O);
     } else if (from === 4 && (to === 0 || to === 10)) {
       let Q2D = this.quaternaryToDecimal(load); /* Quaternary To Decimal */
 
