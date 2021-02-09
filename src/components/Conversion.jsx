@@ -31,6 +31,8 @@ class Conversion extends Component {
   /* Copy Types */
   C_Types = { 10: "Decimal", 8: "Octal", 4: "Quaternary" };
 
+  InvalidChars = [".", "-", "e", "+", "E"];
+
   renovateC_Types = (del) => {
     this.C_Types = { ...this.Types };
     delete this.C_Types[del];
@@ -363,6 +365,7 @@ class Conversion extends Component {
               value={load}
               variant="outlined"
               onChange={onInput}
+              onKeyDown={e => this.InvalidChars.includes(e.key) && e.preventDefault()}
             />
           </Box>
           <Box display="flex" justifyContent="center" className={classes.box}>
